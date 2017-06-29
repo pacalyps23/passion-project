@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>PuttConnect</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <h3>Rentals</h3>
+
+  <p>
+    These are all the available golf rentals.
+  </p>
+
+  <ion-list>
+
+    <button ion-item *ngFor="let rental of rentals" (click)="getInfo(rental)" padding>
+      {{rental.title}}
+      <div class="rental-price" item-right>
+        Price: {{rental.itemAmount | currency:'USD':true}}
+      </div>
+    </button>
+
+  </ion-list>
+
+</ion-content>

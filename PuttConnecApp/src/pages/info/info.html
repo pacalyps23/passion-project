@@ -1,0 +1,34 @@
+
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>PuttConnect</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item>{{selectedRental.title}}
+      <ion-list>
+        <ion-item>Description
+          <ion-list>
+            <ion-item>{{selectedRental.itemDescription}}</ion-item>
+          </ion-list>
+        </ion-item>
+        <ion-item>Price
+          <ion-list>
+            <ion-item>{{selectedRental.itemAmount | currency:'USD':true}}</ion-item>
+
+          </ion-list>
+        </ion-item>
+        <ion-item>Contact
+          <ion-list>
+            <ion-item>Name: {{selectedRental.user.firstName}} {{selectedRental.user.lastName}}</ion-item>
+            <ion-item>Email: {{selectedRental.user.email}}</ion-item>
+          </ion-list>
+        </ion-item>
+      </ion-list>
+    </ion-item>
+  </ion-list>
+</ion-content>
