@@ -3,13 +3,13 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Rentals</ion-title>
+    <ion-title>PuttConnect</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
   <h3>My Profile</h3>
-
+  <h4>{{status}}</h4>
   <p>
     These is the page where you can edit, add, and delete your posts.
   </p>
@@ -20,15 +20,14 @@
         {{rental.title}}
       </ion-item>
         <ion-item-options>
-          <button ion-button icon-only (click)="editQuote(quote)" light>
+          <button ion-button icon-only (click)="editRental(rental)" light>
             <ion-icon name="paper"></ion-icon>
           </button>
-          <button ion-button icon-only (click)="deleteQuote(quote)" color="danger">
+          <button ion-button icon-only (click)="deleteRental(rental)" color="danger">
             <ion-icon name="trash"></ion-icon>
           </button>
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
 
-  <button ion-button secondary menuToggle>Toggle Menu</button>
 </ion-content>

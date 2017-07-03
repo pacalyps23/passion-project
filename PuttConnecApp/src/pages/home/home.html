@@ -7,13 +7,44 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <h3>Home Page</h3>
+<ion-content class ="login-content homeBackground" >
+  <div class="homesoverlay">
+<ion-row class="logo-row">
+  <ion-col></ion-col>
+  <ion-col width-67>
+    <img class="logo1" style="max-width:15em">
+  </ion-col>
+  <ion-col></ion-col>
+</ion-row>
+<div class="login-box">
+  <form (ngSubmit)="login()" #registerForm="ngForm">
+    <!--<form>-->
+    <ion-row>
+      <ion-col>
+        <ion-list inset>
 
-  <p>
-    This is the login page.
-  </p>
+          <ion-item>
+            <ion-input type="text" placeholder="Email" name="email" [(ngModel)]="registerCredentials.email" required></ion-input>
+            <!--<ion-input type="text" placeholder="Email" name="email"></ion-input>-->
+          </ion-item>
 
+          <ion-item>
+            <ion-input type="password" placeholder="Password" name="password" [(ngModel)]="registerCredentials.password" required></ion-input>
+            <!--<ion-input type="password" placeholder="Password" name="password"></ion-input>-->
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
 
-
+<ion-row>
+    <ion-col class="signup-col">
+      <button ion-button class="submit-btn" type="submit" [disabled]="!registerForm.form.valid">Sign In</button>
+    <!--  <button ion-button class="submit-btn" type="submit" (click)="goHome()">Sign In</button>-->
+      <div class="spacer"></div>
+      <button ion-button="" class="register-btn" type="button" block="" clear="" (click)="createAccount()">Create New Account</button>
+    </ion-col>
+</ion-row>
+</form>
+</div>
+</div>
 </ion-content>

@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, Loading, LoadingController, NavParams, AlertController, MenuController} from 'ionic-angular';
 import { HomeService } from './homeService';
 import { Http } from '@angular/http';
+import { RegisterPage } from '../register/register';
+import { ListPage } from '../list/list';
+import { AuthService } from '../../app/services/authService';
 
 @Component({
   selector: 'page-home',
@@ -9,11 +12,13 @@ import { Http } from '@angular/http';
   providers: [HomeService]
 })
 export class HomePage {
+loading: Loading;
+registerCredentials = {email: '', password: ''};
 
 rentals: any;
 
-  constructor(public navCtrl: NavController, public homeService: HomeService, public alertCtrl: AlertController) {
-    this.getRentals();
+  constructor(public navCtrl: NavController, public homeService: HomeService, private loadingCtrl: LoadingController,
+    public alertCtrl: AlertController, private auth: AuthService, private menuCtrl: MenuController) {
   }
 
   getRentals(){
@@ -21,6 +26,49 @@ rentals: any;
     .subscribe(data => {
       this.rentals = data;
     })
+  }
+
+  public createAccount(){
+      this.navCtrl.push(RegisterPage);
+  }
+
+  public goHome()
+  {
+    this.navCtrl.push(ListPage);
+  }
+
+  public login() {
+    this.showLoading()
+    this.auth.login(this.registerCredentials).subscribe(allowed => {
+      if (allowed) {
+        this.menuCtrl.enable(true);
+        this.navCtrl.setRoot(ListPage);
+      } else {
+        this.showError("Access Denied");
+      }
+    },
+      error => {
+        this.showError(error);
+      });
+  }
+
+  showLoading() {
+      this.loading = this.loadingCtrl.create({
+        content: 'Please wait...',
+        dismissOnPageChange: true
+      });
+      this.loading.present();
+    }
+
+    showError(text) {
+    this.loading.dismiss();
+
+    let alert = this.alertCtrl.create({
+      title: 'Fail',
+      subTitle: text,
+      buttons: ['OK']
+    });
+    alert.present(prompt);
   }
 
 }

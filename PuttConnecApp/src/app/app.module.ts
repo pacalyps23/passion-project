@@ -10,6 +10,9 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { InfoPage } from '../pages/info/info';
 import { ProfilePage } from '../pages/profile/profile';
+import { AuthService } from './services/authService';
+import { ListService } from './services/listService';
+import { RegisterPage } from '../pages/register/register';
 
 
 @NgModule({
@@ -18,7 +21,9 @@ import { ProfilePage } from '../pages/profile/profile';
     HomePage,
     ListPage,
     InfoPage,
-    ProfilePage
+    ProfilePage,
+    RegisterPage
+
   ],
   imports: [
     BrowserModule,
@@ -31,12 +36,15 @@ import { ProfilePage } from '../pages/profile/profile';
     HomePage,
     ListPage,
     ProfilePage,
-    InfoPage
+    InfoPage,
+    RegisterPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    ListService,
+    AuthService
   ]
 })
 export class AppModule {}

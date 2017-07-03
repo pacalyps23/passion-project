@@ -3,6 +3,7 @@ import {IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ListService } from './listService';
 import { Http } from '@angular/http';
 import { InfoPage } from '../info/info';
+import { AuthService } from '../../app/services/authService';
 
 @IonicPage()
 @Component({
@@ -11,13 +12,25 @@ import { InfoPage } from '../info/info';
   providers: [ListService]
 })
 export class ListPage {
-
-  icons: string[];
+  name = "Guest"
+  lname = "";
   rentals: any;
   users:any;
 
-  constructor(public navCtrl: NavController, public listService: ListService, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public auth: AuthService, public listService: ListService, public navParams: NavParams) {
     // If we navigated to this page, we will have an item available as a nav param
+    let info = this.auth.getUserInfo();
+    if(info == undefined)
+    {
+      this.name;
+      this.lname;
+    }
+    else{
+
+      this.name = info['firstName'];
+      this.lname = info['lastName'];
+
+    }
     this.getRentals();
     }
 
