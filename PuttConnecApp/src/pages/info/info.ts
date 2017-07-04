@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { ListService } from '../list/listService';
+import { ListService } from '../../app/services/listService';
 
 /**
  * Generated class for the InfoPage page.
@@ -21,15 +21,7 @@ export class InfoPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public listService: ListService) {
     // this.getInfo();
     this.selectedRental = this.navParams.get('rental');
-    console.log(this.selectedRental.itemAmount);
   }
-
-  // getInfo(){
-  //   this.listService.getRental(this.navParams.get('rental'))
-  //     .subscribe(data => {
-  //       this.rental = data;
-  //     })
-  // }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad InfoPage');

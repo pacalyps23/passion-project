@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {IonicPage, NavController, NavParams } from 'ionic-angular';
-import { ListService } from './listService';
+import { ListService } from '../../app/services/listService';
 import { Http } from '@angular/http';
 import { InfoPage } from '../info/info';
 import { AuthService } from '../../app/services/authService';
@@ -44,11 +44,9 @@ export class ListPage {
 
   getInfo(rental)
   {
-    console.log(rental.itemId);
     this.listService.getRental(rental)
       .subscribe(data => {
          rental = data;
-        console.log(rental);
         this.navCtrl.push(InfoPage, {rental});
     })
   }

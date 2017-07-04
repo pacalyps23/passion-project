@@ -69,7 +69,7 @@ public class RentalController
     public ResponseEntity<Void> addRental(@RequestBody Rental rental, @PathVariable Integer userId)
     {
         log.info("creating new rental: {}", rental);
-        rental.setUser(new User(userId, "", "", "", "", "", 00000, ""));
+        rental.setUser(new User(userId, "", "", "", "", "", 00000, "", ""));
         rentalService.addRental(rental);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -77,15 +77,14 @@ public class RentalController
     @RequestMapping(method = RequestMethod.PUT, value = "/users/{userId}/rentals/{id}")
     public ResponseEntity<Void> updateRental(@RequestBody Rental rental, @PathVariable Integer userId, @PathVariable Integer id)
     {
+        Rental current = rentalService.getRentalById(id);
+        current.setTitle(rental.getTitle());
+        current.setItemDescription(rental.getItemDescription());
+        current.setItemAmount(rental.getItemAmount());
         log.info("updating rental: {}", rental.getItemId());
-        rental.setUser(new User(userId, "", "", "", "", "", 00000, ""));
-        if(rentalService.exists(rental))
-        {
-            log.info("rental # " + rental.getItemId() + " already exists");
-            return new ResponseEntity<Void>(HttpStatus.CONFLICT);
-        }
-        rentalService.updateRental(rental);
-        return new ResponseEntity<Void>(HttpStatus.CREATED);
+        rental.setUser(new User(userId, "", "", "", "", "", 00000, "", ""));
+        rentalService.updateRental(current);
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/users/{userId}/rentals/{id}")

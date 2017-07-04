@@ -24,9 +24,10 @@ public class User
     private String state;
     private int zipcode;
     private String email;
+    private String pass;
 
 
-    public User(Integer id, String firstName, String lastName, String address, String city, String state, int zipcode, String email)
+    public User(Integer id, String firstName, String lastName, String address, String city, String state, int zipcode, String email, String pass)
     {
         this.id = id;
         this.firstName = firstName;
@@ -35,6 +36,7 @@ public class User
         this.city = city;
         this.state = state;
         this.zipcode = zipcode;
+        this.pass = pass;
     }
 
 
@@ -120,6 +122,16 @@ public class User
     public void setEmail(String email)
     {
         this.email = email;
+    }
+
+    public String getPass()
+    {
+        return pass;
+    }
+
+    public void setPass(String pass)
+    {
+        this.pass = pass;
     }
 }
 

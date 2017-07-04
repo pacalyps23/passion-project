@@ -8,16 +8,35 @@
 </ion-header>
 
 <ion-content padding>
-  <h3>My Profile</h3>
-  <h4>{{status}}</h4>
+  <div padding>
+    <h3>My Profile</h3>
+  </div>
+
+  <div class="guest" style="display: guestRole;">
+      <h4>{{status}}</h4>
+  </div>
+<p>
+  {{userRole}}
+</p>
+
+<div class="user" style="display: userRole;">
   <p>
-    These is the page where you can edit, add, and delete your posts.
+    These is the page where you can edit, add, and delete your posts. Slide left to edit or delete a post.
   </p>
+  <form (ngSubmit)="postRental()">
+    <ion-item>
+      <ion-input type="text" [(ngModel)]="rental.title" name="rental"></ion-input>
+    </ion-item>
+      <button ion-button>Create Post</button>
+  </form>
+</div>
 
   <ion-list>
     <ion-item-sliding *ngFor="let rental of rentals">
       <ion-item>
         {{rental.title}}
+        <ion-item>Description: {{rental.itemDescription}}</ion-item>
+        <ion-item>Price: {{rental.itemAmount | currency:'USD':true}}</ion-item>
       </ion-item>
         <ion-item-options>
           <button ion-button icon-only (click)="editRental(rental)" light>

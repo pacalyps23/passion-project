@@ -26,11 +26,18 @@ export class ListService {
   }
 
   updateRental(rental: any): Observable <any> {
-    console.log(rental);
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this._http.put("http://localhost:8080/users/" + rental.user.userId + "/rental/" + rental.itemId, 
+    return this._http.put("http://localhost:8080/users/" + 1 +"/rentals/" + rental.itemId,
     JSON.stringify(rental), {headers: headers});
+
+  }
+
+  postRental(rental: any)
+  {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this._http.post("http://localhost:8080/users/{userId}/rentals/", JSON.stringify(rental), { headers: headers });
   }
 
 

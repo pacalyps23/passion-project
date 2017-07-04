@@ -20,23 +20,30 @@ export class ProfilePage {
   users: any;
   status: string;
   id: number;
+  userRole: string;
+  guestRole: string;
 
   constructor(public navCtrl: NavController, public auth: AuthService,
     public listService: ListService, public navParams: NavParams, private alertCtrl: AlertController) {
     // If we navigated to this page, we will have an item available as a nav param
     let info = this.auth.getUserInfo();
-    console.log(info);
     if(info == undefined)
     {
+      this.guestRole = "block";
+      this.userRole = "none";
+      console.log(this.guestRole);
       this.status = "Not Signed In!";
     }
     else{
-
+      this.userRole= "block";
+      this.guestRole = "none";
+      console.log(this.userRole);
       this.id = info['userId'];
       this.getRentalsById();
     }
 
     }
+
 
     getRentalsById(){
       this.listService.getRentalById(this.id)
@@ -44,6 +51,15 @@ export class ProfilePage {
         this.rentals = data;
       })
     }
+
+    postRental() {
+    this.listService.postRental(this.rental)
+      .map(res => res.json())
+      .subscribe(data => {
+        console.log(data);
+        this.getRentalsById();
+      });
+  }
 
 editRental(rental){
 
@@ -59,15 +75,14 @@ editRental(rental){
     {
       text: 'Save',
       handler: data => {
-        console.log(data);
         rental.title = data.newTitle;
         rental.itemDescription = data.newDescription;
         rental.itemAmount = data.newAmount;
         this.listService.updateRental(rental)
-          .map(res => res.json())
+        .map(res => res.json)
          .subscribe(data => {
           console.log(data);
-           this.getRentalsById();
+          this.getRentalsById();
            });
       }
     }
@@ -75,14 +90,16 @@ editRental(rental){
 });
 
 
-//this.getQuotes();
+this.getRentalsById();
 prompt.present();
 
 }
 
 
-quote = {
-  message: ''
+rental = {
+  title: '',
+  itemDescription: '',
+  itemAmount: ''
 }
 
 

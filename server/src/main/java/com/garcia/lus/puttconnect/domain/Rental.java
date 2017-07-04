@@ -25,7 +25,7 @@ public class Rental
         this.title = title;
         this.itemDescription = itemDescription;
         this.itemAmount = itemAmount;
-        this.user = new User(userID, "", "", "", "", "", 0, "");
+        this.user = new User(userID, "", "", "", "", "", 0, "","");
     }
 
     public Rental()
