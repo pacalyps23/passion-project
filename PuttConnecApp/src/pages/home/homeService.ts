@@ -6,7 +6,6 @@ import {Injectable} from '@angular/core';
 @Injectable()
 export class HomeService {
   constructor(private _http: Http) {
-
   }
 
   getAllRentals(): Observable<any> {

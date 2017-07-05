@@ -3,6 +3,14 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
+    <ion-buttons end>
+      <button ion-button (click)="logout()">
+        <ion-icon name="log-out"></ion-icon>
+      </button>
+      <button ion-button (click)="addMarker()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-buttons>
     <ion-title>PuttConnect</ion-title>
   </ion-navbar>
 </ion-header>
@@ -14,6 +22,8 @@
     Welcome <b>{{name}} {{lname}}!</b>
   </p>
 
+  <div #map id="map"></div>
+
   <ion-list>
 
     <button ion-item *ngFor="let rental of rentals" (click)="getInfo(rental)" padding>
@@ -22,7 +32,6 @@
         Price: {{rental.itemAmount | currency:'USD':true}}
       </div>
     </button>
-
   </ion-list>
 
 </ion-content>

@@ -6,6 +6,7 @@ import { RegisterPage } from '../register/register';
 import { ListPage } from '../list/list';
 import { AuthService } from '../../app/services/authService';
 
+@IonicPage({})
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',

@@ -1,27 +1,42 @@
-page-list {
+.ios, .md{
+  page-list {
 
-div.item-inner{
-  background-color: gainsboro;
-}
+  .scroll{
+    height: 100%
+  }
 
-div.input-wrapper{
-  background-color: dimgray;
-}
+  #map {
+    width: 100%;
+    height: 100%;
+  }
+  
+  div.item-inner{
+    background-color: gainsboro;
+  }
 
-div.fixed-content{
-  background-image: url('../assets/images/eventPromo.jpg');
-  background-position: center;
-}
+  div.input-wrapper{
+    background-color: dimgray;
+  }
 
-button.item.item-block.item-md{
-  background-color: transparent;
-  padding: 16px;
-}
+  button.item.item-block.item-ios{
+    background-color: transparent;
+  }
 
-div.item-inner{
-  border-radius: 5px;
-}
+  div.fixed-content{
+    background-image: url('../assets/images/eventPromo.jpg');
+    background-position: center;
+  }
+
+  button.item.item-block.item-md{
+    background-color: transparent;
+    padding: 16px;
+  }
+
+  div.item-inner{
+    border-radius: 5px;
+  }
 
 
 
+  }
 }

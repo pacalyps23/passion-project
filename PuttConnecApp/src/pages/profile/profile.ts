@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { AuthService } from '../../app/services/authService';
 import { ListService } from '../../app/services/listService';
-
 /**
  * Generated class for the ProfilePage page.
  *
@@ -18,10 +17,8 @@ export class ProfilePage {
 
   rentals: any;
   users: any;
-  status: string;
   id: number;
-  userRole: string;
-  guestRole: string;
+  status: string;
 
   constructor(public navCtrl: NavController, public auth: AuthService,
     public listService: ListService, public navParams: NavParams, private alertCtrl: AlertController) {
@@ -29,15 +26,10 @@ export class ProfilePage {
     let info = this.auth.getUserInfo();
     if(info == undefined)
     {
-      this.guestRole = "block";
-      this.userRole = "none";
-      console.log(this.guestRole);
-      this.status = "Not Signed In!";
+      this.status = "Please Login!";
     }
     else{
-      this.userRole= "block";
-      this.guestRole = "none";
-      console.log(this.userRole);
+      this.status ="";
       this.id = info['userId'];
       this.getRentalsById();
     }
@@ -52,13 +44,23 @@ export class ProfilePage {
       })
     }
 
-    postRental() {
+  postRental(id) {
     this.listService.postRental(this.rental)
       .map(res => res.json())
       .subscribe(data => {
         console.log(data);
         this.getRentalsById();
       });
+      this.getRentalsById();
+  }
+
+  deleteRental(rental: any) {
+    this.listService.deletePost(rental)
+    .map(res => res.toString())
+    .subscribe(data => {
+      console.log(data);
+      this.getRentalsById();
+    })
   }
 
 editRental(rental){
@@ -106,5 +108,10 @@ rental = {
   ionViewDidLoad() {
     console.log('ionViewDidLoad ProfilePage');
   }
+  public goHome(){
+    console.log('home');
+    this.navCtrl.push("HomePage");
+  }
+
 
 }

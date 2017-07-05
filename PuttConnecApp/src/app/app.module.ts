@@ -1,9 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { Geolocation } from '@ionic-native/geolocation';
 
 import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
+import { HomePageModule } from '../pages/home/home.module';
 import { ListPage } from '../pages/list/list';
 import { HttpModule } from '@angular/http';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -18,32 +19,32 @@ import { RegisterPage } from '../pages/register/register';
 @NgModule({
   declarations: [
     MyApp,
-    HomePage,
     ListPage,
     InfoPage,
     ProfilePage,
-    RegisterPage
+    RegisterPage,
 
   ],
   imports: [
     BrowserModule,
     HttpModule,
-    IonicModule.forRoot(MyApp),
+    HomePageModule,
+    IonicModule.forRoot(MyApp,{tabsPlacement: 'bottom'}),
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage,
     ListPage,
     ProfilePage,
     InfoPage,
-    RegisterPage
+    RegisterPage,
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ListService,
+    Geolocation,
     AuthService
   ]
 })
