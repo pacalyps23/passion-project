@@ -7,6 +7,7 @@ import { AuthService } from '../../app/services/authService';
 import { Geolocation } from '@ionic-native/geolocation';
 
 declare var google;
+declare var geocoder;
 
 @IonicPage()
 @Component({
@@ -44,6 +45,7 @@ export class ListPage {
     }
 
     loadMap(){
+      //geocoder = new google.maps.Geocoder();
     this.geolocation.getCurrentPosition().then((position) => {
       let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
       let mapOptions = {
@@ -100,6 +102,20 @@ addInfoWindow(marker, content){
       .subscribe(succ => {
         this.navCtrl.setRoot('HomePage');
       });
+    }
+
+    getMarkers(){
+      this.listService.getAllRentals()
+      .subscribe(data => {
+        this.addMarkersToMap(data.user.address);
+      })
+    }
+
+    addMarkersToMap(markers){
+      for(let marker of markers)
+      {
+
+      }
     }
 
 }

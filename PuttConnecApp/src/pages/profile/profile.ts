@@ -19,16 +19,25 @@ export class ProfilePage {
   users: any;
   id: number;
   status: string;
+  allow: boolean;
+  rental = {
+    title: '',
+    itemDescription: '',
+    itemAmount: ''
+  }
 
   constructor(public navCtrl: NavController, public auth: AuthService,
     public listService: ListService, public navParams: NavParams, private alertCtrl: AlertController) {
     // If we navigated to this page, we will have an item available as a nav param
     let info = this.auth.getUserInfo();
+    console.log(info);
     if(info == undefined)
     {
+      this.allow = false;
       this.status = "Please Login!";
     }
     else{
+      this.allow = true;
       this.status ="";
       this.id = info['userId'];
       this.getRentalsById();
@@ -44,15 +53,34 @@ export class ProfilePage {
       })
     }
 
-  postRental(id) {
-    this.listService.postRental(this.rental)
-      .map(res => res.json())
-      .subscribe(data => {
-        console.log(data);
-        this.getRentalsById();
-      });
-      this.getRentalsById();
-  }
+    postRental(){
+      let prompt = this.alertCtrl.create({
+      title: 'Post Rental',
+      inputs: [{ name: 'newTitle', placeholder: "Title" },
+              {name: 'newDescription', placeholder: "Description"},
+              { name: 'newAmount', placeholder: "Amount"}],
+      buttons: [
+        {
+          text: 'Cancel'
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            this.rental.title = data.newTitle;
+            this.rental.itemDescription = data.newDescription;
+            this.rental.itemAmount = data.newAmount;
+            this.listService.postRental(this.rental)
+            .map(res => res.json)
+             .subscribe(data => {
+              console.log(data);
+              this.getRentalsById();
+               });
+          }
+        }
+      ]
+    });
+    prompt.present();
+    }
 
   deleteRental(rental: any) {
     this.listService.deletePost(rental)
@@ -64,12 +92,11 @@ export class ProfilePage {
   }
 
 editRental(rental){
-
   let prompt = this.alertCtrl.create({
   title: 'Edit Rental',
-  inputs: [{ name: 'newTitle', placeholder: 'Title' },
-          {name: 'newDescription', placeholder: 'Description'},
-          { name: 'newAmount', placeholder: 'Amount'}],
+  inputs: [{ name: 'newTitle', value: rental.title },
+          {name: 'newDescription', value: rental.itemDescription },
+          { name: 'newAmount', value: rental.itemAmount }],
   buttons: [
     {
       text: 'Cancel'
@@ -91,19 +118,10 @@ editRental(rental){
   ]
 });
 
-
-this.getRentalsById();
+//this.getRentalsById();
 prompt.present();
 
 }
-
-
-rental = {
-  title: '',
-  itemDescription: '',
-  itemAmount: ''
-}
-
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ProfilePage');

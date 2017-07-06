@@ -29,7 +29,7 @@
     <button ion-item *ngFor="let rental of rentals" (click)="getInfo(rental)" padding>
       {{rental.title}}
       <div class="rental-price" item-right>
-        Price: {{rental.itemAmount | currency:'USD':true}}
+        <b>Price:</b> {{rental.itemAmount | currency:'USD':true}}
       </div>
     </button>
   </ion-list>

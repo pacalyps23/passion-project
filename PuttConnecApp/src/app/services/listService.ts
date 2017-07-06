@@ -6,10 +6,11 @@ import {AuthService} from '../../app/services/authService';
 
 @Injectable()
 export class ListService {
-  id: number;
+  id: any;
 
   constructor(private _http: Http, private auth: AuthService) {
     let current = this.auth.getUserInfo();
+    console.log(current);
     this.id = current.userId;
   }
 
@@ -30,7 +31,6 @@ export class ListService {
 
   updateRental(rental: any): Observable <any> {
     let headers = new Headers();
-    console.log(this.id);
     headers.append('Content-Type', 'application/json');
     return this._http.put("http://localhost:8080/users/" + 1 +"/rentals/" + rental.itemId,
     JSON.stringify(rental), {headers: headers});
@@ -40,7 +40,7 @@ export class ListService {
   postRental(rental: any): Observable <any>{
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this._http.post("http://localhost:8080/users/"+ rental.userId +"/rentals", JSON.stringify(rental), { headers: headers });
+    return this._http.post("http://localhost:8080/users/"+ this.id +"/rentals", JSON.stringify(rental), { headers: headers });
   }
 
   deletePost(rental: any) : Observable<any> {

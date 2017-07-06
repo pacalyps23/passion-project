@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, Loading, LoadingController, NavParams, AlertController, MenuController} from 'ionic-angular';
-import { HomeService } from './homeService';
+//import { HomeService } from './homeService';
 import { Http } from '@angular/http';
 import { RegisterPage } from '../register/register';
 import { ListPage } from '../list/list';
@@ -9,8 +9,7 @@ import { AuthService } from '../../app/services/authService';
 @IonicPage({})
 @Component({
   selector: 'page-home',
-  templateUrl: 'home.html',
-  providers: [HomeService]
+  templateUrl: 'home.html'
 })
 export class HomePage {
 loading: Loading;
@@ -18,16 +17,16 @@ registerCredentials = {email: '', password: ''};
 
 rentals: any;
 
-  constructor(public navCtrl: NavController, public homeService: HomeService, private loadingCtrl: LoadingController,
+  constructor(public navCtrl: NavController, private loadingCtrl: LoadingController,
     public alertCtrl: AlertController, private auth: AuthService, private menuCtrl: MenuController) {
   }
 
-  getRentals(){
-    this.homeService.getAllRentals()
-    .subscribe(data => {
-      this.rentals = data;
-    })
-  }
+  // getRentals(){
+  //   this.homeService.getAllRentals()
+  //   .subscribe(data => {
+  //     this.rentals = data;
+  //   })
+  // }
 
   public createAccount(){
       this.navCtrl.push(RegisterPage);

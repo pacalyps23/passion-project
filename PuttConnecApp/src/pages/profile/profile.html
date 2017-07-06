@@ -8,11 +8,11 @@
 </ion-header>
 
 <ion-content padding>
-  <div padding>
+  <div padding #nouser>
     <h3>My Profile</h3>
   </div>
 
-  <div >
+  <div>
       <p>{{status}}</p>
   </div>
 
@@ -22,19 +22,10 @@
   </p>
 
 </div>
-<form (ngSubmit)="postRental(id)">
-  <ion-item>
-    <ion-input type="text" [(ngModel)]="rental.title" placeholder="Title" name="rental"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-input type="text" [(ngModel)]="rental.itemDescription" placeholder="Description" name="rental"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-input type="text" [(ngModel)]="rental.itemAmount" placeholder="Amount" name="rental"></ion-input>
-  </ion-item>
 
-    <button ion-button>Create Post</button>
-</form>
+<div *ngIf="allow">
+<button ion-button (click)="postRental()">Create Post</button>
+
   <ion-list>
     <ion-item-sliding *ngFor="let rental of rentals">
       <ion-item text-wrap>
@@ -52,5 +43,5 @@
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
-
+</div>
 </ion-content>
