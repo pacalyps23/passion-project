@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import {IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ListService } from '../../app/services/listService';
 import { Http } from '@angular/http';
 import { InfoPage } from '../info/info';
@@ -7,7 +7,6 @@ import { AuthService } from '../../app/services/authService';
 import { Geolocation } from '@ionic-native/geolocation';
 
 declare var google;
-declare var geocoder;
 
 @IonicPage()
 @Component({
@@ -19,39 +18,50 @@ export class ListPage {
   name = "Guest"
   lname = "";
   rentals: any;
-  users:any;
   @ViewChild('map') mapElement: ElementRef;
+  users = {
+    address: '',
+    city: '',
+    state: '',
+    zipcode: ''
+  }
   map: any;
 
-  constructor(public geolocation: Geolocation, private navCtrl: NavController, public auth: AuthService, public listService: ListService, public navParams: NavParams) {
+  constructor(public geolocation: Geolocation,
+    private navCtrl: NavController,
+    public auth: AuthService,
+    public listService: ListService,
+    public navParams: NavParams) {
     // If we navigated to this page, we will have an item available as a nav param
     let info = this.auth.getUserInfo();
-    if(info == undefined)
-    {
+    if (info == undefined) {
       this.name;
       this.lname;
     }
-    else{
+    else {
 
       this.name = info['firstName'];
       this.lname = info['lastName'];
 
     }
     this.getRentals();
-    }
+    //this.getUsers();
+  }
 
-    ionViewDidLoad(){
-      this.loadMap();
-    }
+  ionViewDidLoad() {
+    this.loadMap();
+  }
 
-    loadMap(){
-      //geocoder = new google.maps.Geocoder();
+  loadMap() {
     this.geolocation.getCurrentPosition().then((position) => {
+      //let address = new google.maps.LatLng(lat, lng);
       let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
       let mapOptions = {
         center: latLng,
-        zoom: 15,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
+        zoom: 5,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        animation: google.maps.Animation.DROP
+
       }
       this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
     }, (err) => {
@@ -60,62 +70,74 @@ export class ListPage {
 
   }
 
-  addMarker(){
-  let marker = new google.maps.Marker({
-    map: this.map,
-    animation: google.maps.Animation.DROP,
-    position: this.map.getCenter()
-  });
-  let content = "<h4>Information!</h4>";
-  this.addInfoWindow(marker, content);
-}
-
-addInfoWindow(marker, content){
-  let infoWindow = new google.maps.InfoWindow({
-    content: content
-  });
-  google.maps.event.addListener(marker, 'click', () => {
-    infoWindow.open(this.map, marker);
-  });
-}
-
-    getRentals(){
-      this.listService.getAllRentals()
-      .subscribe(data => {
-        this.rentals = data;
-      })
-    }
-
-
-  getInfo(rental)
+  postMarker(data)
   {
-    this.listService.getRental(rental)
+    console.log(data);
+    let zipCode = new google.maps.LatLng(39.749391, -75.561390);
+    this.myMarker(zipCode);//working marker
+    this.myMarker(data);
+  }
+
+  getUsers() {
+    this.listService.getAllUsers()
       .subscribe(data => {
-         rental = data;
-        this.navCtrl.push(InfoPage, {rental});
+        console.log(data);
+        this.getAllMarkers(data);
+      })
+  }
+
+  getAllMarkers(markers) {
+    for(let marker of markers)
+    {
+      this.getLtLng(marker);
+    }
+  }
+
+  getLtLng(marker)
+  {
+    var address = marker.address + ", " + marker.city + " " + marker.zipcode;
+    console.log(address);
+    this.listService.codeAddress(address)
+    .map(res => res.toString())
+    .subscribe(data => {
+      console.log(data);
+      this.postMarker(data);
     })
   }
 
-    logout() {
-      console.log("logging off");
-      this.auth.logout()
+  getRentals() {
+    this.listService.getAllRentals()
+      .subscribe(data => {
+        this.rentals = data;
+      })
+  }
+
+
+  getInfo(rental) {
+    this.listService.getRental(rental)
+      .subscribe(data => {
+        rental = data;
+        this.navCtrl.push(InfoPage, { rental });
+      });
+  }
+
+  logout() {
+    console.log("logging off");
+    this.auth.logout()
       .subscribe(succ => {
         this.navCtrl.setRoot('HomePage');
       });
-    }
+  }
 
-    getMarkers(){
-      this.listService.getAllRentals()
-      .subscribe(data => {
-        this.addMarkersToMap(data.user.address);
-      })
-    }
 
-    addMarkersToMap(markers){
-      for(let marker of markers)
-      {
+  myMarker(position) {
 
-      }
-    }
+    var currentPositionIcon = new google.maps.Marker({
+      optimized: false,
+      position: position
+    });
+    currentPositionIcon.setMap(this.map);
+  }
+
 
 }

@@ -1,21 +1,106 @@
-<!--
-  Generated template for the RegisterPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
   <ion-navbar>
-    <ion-title>Register</ion-title>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>PuttConnect</ion-title>
   </ion-navbar>
-
 </ion-header>
-<p>
-  this is the page to register. 
-</p>
 
 
-<ion-content padding>
 
+<ion-content class ="login-content">
+
+<div class = "login-box">
+  <form (ngSubmit)="register()" #registerForm="ngForm">
+    <ion-row>
+      <ion-col>
+        <ion-list inset>
+          <ion-item>
+            <ion-input type="text" placeholder="First Name" name="firstName" [(ngModel)]="user.firstName" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input type="text" placeholder="Last Name" name="lastName" [(ngModel)]="user.lastName" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input type="address" placeholder="Address" name="user" [(ngModel)]="user.address" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input type="address" placeholder="City" name="user" [(ngModel)]="user.city" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input  placeholder="State" name="user" [(ngModel)]="user.state" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input  placeholder="Zip Code" name="user" [(ngModel)]="user.zipcode" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input type="text" placeholder="Email" name="user" [(ngModel)]="user.email" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input type="password" placeholder="Password" name="user" [(ngModel)]="user.pass" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input type="password" placeholder="Retype Password" required></ion-input>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+ <ion-row>
+    <ion-col class="signup-col">
+      <button ion-button class="submit-btn" type="submit" [disabled]="!registerForm.form.valid">Sign In</button>
+      <div class="spacer"></div>
+      <button ion-button class="register-btn" block clear navPop>Existing Account</button>
+    </ion-col>
+</ion-row>
+
+</form>
+</div>
 </ion-content>
+
+<!-- <ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title> <img class="titleImg" src="assets/img/foodbank-logo.png"></ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class ="login-content">
+
+<div class = "login-box">
+  <form (ngSubmit)="register()" #registerForm="ngForm">
+    <ion-row>
+      <ion-col>
+        <ion-list inset>
+          <ion-item>
+            <ion-input type="text" class="name" placeholder="First Name" name="fname" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input type="text" placeholder="Last Name" name="lname" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input type="text" placeholder="Email" name="email" [(ngModel)]="registerCredentials.email" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input type="phone" placeholder="Phone" name="phone" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input type="password" placeholder="Password" name="password" [(ngModel)]="registerCredentials.password" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input type="password" placeholder="Retype Password" name="password2" required></ion-input>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+<ion-row>
+    <ion-col class="signup-col">
+      <button ion-button class="submit-btn" type="submit" [disabled]="!registerForm.form.valid">Sign In</button>
+      <button ion-button class="register-btn" block clear navPop>Existing Account</button>
+    </ion-col>
+</ion-row>
+</form>
+</div>
+</ion-content> -->

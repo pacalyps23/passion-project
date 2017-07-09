@@ -21,12 +21,6 @@ rentals: any;
     public alertCtrl: AlertController, private auth: AuthService, private menuCtrl: MenuController) {
   }
 
-  // getRentals(){
-  //   this.homeService.getAllRentals()
-  //   .subscribe(data => {
-  //     this.rentals = data;
-  //   })
-  // }
 
   public createAccount(){
       this.navCtrl.push(RegisterPage);

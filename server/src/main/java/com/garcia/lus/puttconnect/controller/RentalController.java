@@ -20,6 +20,10 @@ import java.util.List;
 @RestController
 public class RentalController
 {
+    public  static final void main(String[] data)
+    {
+        System.out.println('h');
+    }
 
     @Autowired
     private RentalService rentalService;

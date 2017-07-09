@@ -22,7 +22,7 @@ import { RegisterPage } from '../pages/register/register';
     ListPage,
     InfoPage,
     ProfilePage,
-    RegisterPage,
+    RegisterPage
 
   ],
   imports: [
