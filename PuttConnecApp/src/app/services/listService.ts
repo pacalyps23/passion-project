@@ -72,15 +72,14 @@ createUser(user: any) : Observable <any>{
 
 codeAddress(address: any) : Observable<any> {
   console.log("codeAd:" + address);
-  var 
+  var loc = [];
   return new Observable((observer: Observer<any>) => {
     //invokes geocode method of Google Maps API geocoding
     this.geocoder.geocode({ 'address': address },
     (
       (results, status) => {
         if(status === google.maps.GeocoderStatus.OK){
-          observer.next(results[0].geometry.location);
-
+          observer.next(results);
           observer.complete();
         }else{
           console.log("Geocding service: geocode was not successful for the following reason: " + status);

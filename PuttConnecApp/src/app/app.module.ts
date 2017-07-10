@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
-
+import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 import { MyApp } from './app.component';
 import { HomePageModule } from '../pages/home/home.module';
 import { ListPage } from '../pages/list/list';
@@ -14,7 +14,13 @@ import { ProfilePage } from '../pages/profile/profile';
 import { AuthService } from './services/authService';
 import { ListService } from './services/listService';
 import { RegisterPage } from '../pages/register/register';
+import { Camera, CameraOptions } from '@ionic-native/camera';
 
+const cloudSettings: CloudSettings = {
+  'core': {
+    'app_id': '3ff6bcdb'
+  }
+};
 
 @NgModule({
   declarations: [
@@ -30,6 +36,7 @@ import { RegisterPage } from '../pages/register/register';
     HttpModule,
     HomePageModule,
     IonicModule.forRoot(MyApp,{tabsPlacement: 'bottom'}),
+    CloudModule.forRoot(cloudSettings)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -45,7 +52,8 @@ import { RegisterPage } from '../pages/register/register';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ListService,
     Geolocation,
-    AuthService
+    AuthService,
+    Camera
   ]
 })
 export class AppModule {}

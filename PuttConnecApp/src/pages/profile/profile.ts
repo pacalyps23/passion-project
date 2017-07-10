@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { AuthService } from '../../app/services/authService';
 import { ListService } from '../../app/services/listService';
+import { Camera, CameraOptions } from '@ionic-native/camera';
 /**
  * Generated class for the ProfilePage page.
  *
@@ -25,8 +26,9 @@ export class ProfilePage {
     itemDescription: '',
     itemAmount: ''
   }
+  captureDataUrl: string;
 
-  constructor(public navCtrl: NavController, public auth: AuthService,
+  constructor(public navCtrl: NavController, public auth: AuthService, private camera: Camera,
     public listService: ListService, public navParams: NavParams, private alertCtrl: AlertController) {
     // If we navigated to this page, we will have an item available as a nav param
     let info = this.auth.getUserInfo();
@@ -117,11 +119,37 @@ editRental(rental){
     }
   ]
 });
-
-//this.getRentalsById();
 prompt.present();
-
 }
+
+capture() {
+    const cameraOptions: CameraOptions = {
+      quality: 50,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+    };
+
+    this.camera.getPicture(cameraOptions).then((imageData) => {
+      // imageData is either a base64 encoded string or a file URI
+      // If it's base64:
+      this.captureDataUrl = 'data:image/jpeg;base64,' + imageData;
+    }, (err) => {
+      // Handle error
+    });
+  }
+
+  upload() {
+    let storageRef = firebase.storage().ref();
+    // Create a timestamp as filename
+    const filename = Math.floor(Date.now() / 1000);
+    // Create a reference to 'images/todays-date.jpg'
+    const imageRef = storageRef.child(`images/${filename}.jpg`);
+    imageRef.putString(this.captureDataUrl, firebase.storage.StringFormat.DATA_URL).then((snapshot)=> {
+     // Do something here when the data is succesfully uploaded!
+     this.captureDataUrl = "";
+    });
+  }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ProfilePage');

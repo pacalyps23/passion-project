@@ -8,6 +8,7 @@ import { ListPage } from '../pages/list/list';
 import { InfoPage } from '../pages/info/info';
 import { ProfilePage } from '../pages/profile/profile';
 import { RegisterPage } from '../pages/register/register';
+import firebase from 'firebase';
 
 @Component({
   templateUrl: 'app.html'
@@ -37,6 +38,16 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyBIRANs_tzuHRSgcAAEzh4DopJbEqicAzE",
+        authDomain: "puttconnect.firebaseapp.com",
+        databaseURL: "https://puttconnect.firebaseio.com",
+        projectId: "puttconnect",
+        storageBucket: "",
+        messagingSenderId: "845256914911"
+      };
+      firebase.initializeApp(firebaseConfig);
     });
   }
 

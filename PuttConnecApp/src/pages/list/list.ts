@@ -25,6 +25,7 @@ export class ListPage {
     state: '',
     zipcode: ''
   }
+  allow: boolean;
   map: any;
 
   constructor(public geolocation: Geolocation,
@@ -45,7 +46,6 @@ export class ListPage {
 
     }
     this.getRentals();
-    //this.getUsers();
   }
 
   ionViewDidLoad() {
@@ -54,36 +54,25 @@ export class ListPage {
 
   loadMap() {
     this.geolocation.getCurrentPosition().then((position) => {
-      //let address = new google.maps.LatLng(lat, lng);
       let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
       let mapOptions = {
         center: latLng,
-        zoom: 5,
+        zoom: 10,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
-        animation: google.maps.Animation.DROP
+        animation: google.maps.Animation.DROP,
 
       }
       this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
+      this.myMarker(latLng, "You are here");
     }, (err) => {
       console.log(err);
     });
 
   }
 
-  postMarker(data)
+  show()
   {
-    console.log(data);
-    let zipCode = new google.maps.LatLng(39.749391, -75.561390);
-    this.myMarker(zipCode);//working marker
-    this.myMarker(data);
-  }
-
-  getUsers() {
-    this.listService.getAllUsers()
-      .subscribe(data => {
-        console.log(data);
-        this.getAllMarkers(data);
-      })
+    this.allow = true;
   }
 
   getAllMarkers(markers) {
@@ -95,20 +84,20 @@ export class ListPage {
 
   getLtLng(marker)
   {
-    var address = marker.address + ", " + marker.city + " " + marker.zipcode;
-    console.log(address);
-    this.listService.codeAddress(address)
-    .map(res => res.toString())
-    .subscribe(data => {
-      console.log(data);
-      this.postMarker(data);
-    })
+    var address = marker.user.address + ", " + marker.user.city + " " + marker.user.zipcode;
+    this.listService.codeAddress(address).forEach(
+      (results: any) => {
+        let zipCode = new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng());
+        this.myMarker(zipCode, marker.title);
+      }
+    );
   }
 
   getRentals() {
     this.listService.getAllRentals()
       .subscribe(data => {
         this.rentals = data;
+        this.getAllMarkers(data);
       })
   }
 
@@ -130,14 +119,25 @@ export class ListPage {
   }
 
 
-  myMarker(position) {
+  myMarker(position, title) {
 
-    var currentPositionIcon = new google.maps.Marker({
+    var rentalMarker = new google.maps.Marker({
       optimized: false,
       position: position
     });
-    currentPositionIcon.setMap(this.map);
+    rentalMarker.setMap(this.map);
+    let content = title;
+    this.addInfoWindow(rentalMarker, title);
   }
+
+  addInfoWindow(marker, content){
+  let infoWindow = new google.maps.InfoWindow({
+    content: content
+  });
+  google.maps.event.addListener(marker, 'click', () => {
+    infoWindow.open(this.map, marker);
+  });
+}
 
 
 }
